@@ -1,6 +1,8 @@
 using Serilog;
 using Serilog.Events;
 using Microsoft.OpenApi.Models;
+using HotelListing.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 //COURSE: Configuring Serilog
 builder.Host.UseSerilog();
 
-builder.Services.AddControllers();
+//COURSE: Configuring database context to use sql server with connection string defined in appsetings.json
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"));
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -26,6 +33,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelListing", Version = "v1" });
 });
+
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
