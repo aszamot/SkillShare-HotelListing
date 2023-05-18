@@ -3,6 +3,7 @@ using Serilog.Events;
 using Microsoft.OpenApi.Models;
 using HotelListing.Data;
 using Microsoft.EntityFrameworkCore;
+using HotelListing.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ builder.Services.AddCors(o =>
     .AllowAnyMethod()
     .AllowAnyHeader());
 });
+
+builder.Services.AddAutoMapper(typeof(MapperInitializer));
 
 builder.Services.AddSwaggerGen(c =>
 {
