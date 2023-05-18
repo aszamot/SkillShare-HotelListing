@@ -4,6 +4,8 @@ using Microsoft.OpenApi.Models;
 using HotelListing.Data;
 using Microsoft.EntityFrameworkCore;
 using HotelListing.Configurations;
+using HotelListing.Repositories.IRepository;
+using HotelListing.Repositories.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,14 +32,22 @@ builder.Services.AddCors(o =>
     .AllowAnyHeader());
 });
 
+//COURSE: adding automapper to now what to map
 builder.Services.AddAutoMapper(typeof(MapperInitializer));
+
+//COURSE: adding UnitOfWork to work with DI
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "HotelListing", Version = "v1" });
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(
+    options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    );
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 
@@ -56,7 +66,6 @@ app.UseCors("AllowAll");
 app.UseAuthorization();
 
 app.MapControllers();
-
 
 //COURSE: Configuring Serilog to make a log file daily with propper timestamps
 Log.Logger = new LoggerConfiguration()
