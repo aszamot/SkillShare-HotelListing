@@ -18,6 +18,6 @@ namespace HotelListing.Repositories.IRepository
         Task InsertRange(IEnumerable<T> entities);
         Task Delete(int id);
         void DeleteRange(IEnumerable<T> entities);
-        void Updater(T entity);
+        void Update(T entity);
     }
 }

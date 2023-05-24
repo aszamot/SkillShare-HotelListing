@@ -78,7 +78,7 @@ namespace HotelListing.Repositories.Repository
             await _db.AddRangeAsync(entities);
         }
 
-        public void Updater(T entity)
+        public void Update(T entity)
         {
             _db.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;

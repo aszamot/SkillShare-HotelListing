@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using HotelListing.Configurations;
 using HotelListing.Repositories.IRepository;
 using HotelListing.Repositories.Repository;
+using Microsoft.AspNetCore.Identity;
+using HotelListing.Extensions;
+using HotelListing.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,11 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"));
 });
+
+//COURSE: configuring authetication and identity and JWT
+builder.Services.AddAuthentication();
+builder.Services.ConfigureIdentity();
+builder.Services.ConfigureJWT(builder.Configuration);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -37,6 +45,8 @@ builder.Services.AddAutoMapper(typeof(MapperInitializer));
 
 //COURSE: adding UnitOfWork to work with DI
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+//COURSE: adding AuthManager to work with DI
+builder.Services.AddScoped<IAuthManager, AuthManager>();
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -58,11 +68,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 //COURSE: Allow app to use Cors
 app.UseCors("AllowAll");
+app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();

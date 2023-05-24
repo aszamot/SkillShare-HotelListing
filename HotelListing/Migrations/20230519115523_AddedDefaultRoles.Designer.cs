@@ -4,6 +4,7 @@ using HotelListing.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HotelListing.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230519115523_AddedDefaultRoles")]
+    partial class AddedDefaultRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,15 +223,15 @@ namespace HotelListing.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "50defbfd-9dea-45dd-86de-9c4d99226fe0",
-                            ConcurrencyStamp = "bc88973a-0786-4644-a014-87e511807082",
+                            Id = "132aba0b-fd4f-48ae-8507-c6388920fc63",
+                            ConcurrencyStamp = "595b7d5c-d506-4f6f-89c0-47deda3d0f6b",
                             Name = "User",
-                            NormalizedName = "USER"
+                            NormalizedName = "NAME"
                         },
                         new
                         {
-                            Id = "1ae8b9cf-9f0e-455c-9092-e068335852ac",
-                            ConcurrencyStamp = "4a2e5aa7-afff-4ef4-a7c2-faa3ed4ed24f",
+                            Id = "56df214c-cb9f-4415-93b5-bc24aad6bbf9",
+                            ConcurrencyStamp = "9419fa6d-60c8-4a9f-ad51-16d0ad1faf67",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
